@@ -1,122 +1,83 @@
+const users = require('./users');
 const movies = require('./movies');
 const restaurants = require('./restaurants');
-const users = require('./users');
 
-// Step 1: Feature Representation
-
-// No specific implementation needed here, as the data already contains features for movies and restaurants.
-
-// Step 2: User Preferences
-
-// For each user, calculate their preferences based on ratings
-const userPreferences = {};
-users.forEach(user => {
-    userPreferences[user.id] = {
-        movies: {},
-        restaurants: {}
-    };
-
-    // Movies
-    Object.keys(user.preferences.movies).forEach(movieId => {
-        userPreferences[user.id].movies[movieId] = user.preferences.movies[movieId];
-    });
-
-    // Restaurants
-    Object.keys(user.preferences.restaurants).forEach(restaurantId => {
-        userPreferences[user.id].restaurants[restaurantId] = user.preferences.restaurants[restaurantId];
-    });
-});
-// Print out the genre for each movie in the movies dataset
-console.log("Genre for each movie:");
-movies.forEach(movie => {
-    console.log(`${movie.name}:`, movie.genre);
-});
-
-// Step 3: Feature Vectorization
-// Not needed for this example as the data already has features.
-
-// Step 4: User Profile Creation
-
-// Calculate user profile based on their preferences
-const userProfile = {};
-Object.keys(userPreferences).forEach(userId => {
-    userProfile[userId] = {};
-
-    // For movies
-    userProfile[userId].movies = {};
-    Object.keys(userPreferences[userId].movies).forEach(movieId => {
-        if (userPreferences[userId].movies[movieId] > 0) {
-            const movie = movies.find(movie => movie.id === parseInt(movieId));
-            userProfile[userId].movies[movieId] = movie;
-        }
-    });
-
-    // For restaurants
-    userProfile[userId].restaurants = {};
-    Object.keys(userPreferences[userId].restaurants).forEach(restaurantId => {
-        if (userPreferences[userId].restaurants[restaurantId] > 0) {
-            const restaurant = restaurants.find(restaurant => restaurant.id === parseInt(restaurantId));
-            userProfile[userId].restaurants[restaurantId] = restaurant;
-        }
-    });
-});
-console.log("User A's profile:", userProfile[1]);
-// Step 5: Recommendation
-// A simplified example to recommend items based on user profile
-
-function recommendItems(userId, itemType) {
-    const profile = userProfile[userId][itemType];
-    const recommendedItems = [];
-
-    // Check if user profile and items exist
-    if (profile && Object.keys(profile).length > 0) {
-        // Extract genres/cuisines of rated items
-        const ratedFeatures = Object.values(profile).map(item => {
-            if (item && (itemType === 'movies' && item.genre)) {
-                return item.genre;
-            } else if (item && (itemType === 'restaurants' && item.cuisine)) {
-                return item.cuisine;
-            } else {
-                return [];
+// Function to generate movie recommendations based on user preferences
+function generateMovieRecommendations(user) {
+    let recommendations = [];
+    // console.log("User Preferences for Movies:", user.preferences.movies);
+    // Loop through each movie
+    movies.forEach(movie => {
+        // console.log("Checking Movie:", movie.name);
+        // Check if the movie genre matches with any preferred genre of the user
+        movie.genre.forEach(genre => {
+            if (user.preferences.movies[genre] > 3) {
+                // console.log("Genre Matched:", genre);   
+                recommendations.push(movie.name);
             }
-        }).flat();
-        console.log("Features rated by the user:", ratedFeatures);
+        });
+         // Check if any preferred actor is in the movie
+         movie.actors.forEach(actor => {
+            if (user.preferences.movies.actors[actor] > 3) {
+                // console.log("Actor Matched:", actor);
+                recommendations.push(movie.name);
 
-        // Filter items based on rated features
-        if (itemType === 'movies') {
-            recommendedItems.push(...movies.filter(movie => movie.genre.some(genre => ratedFeatures.includes(genre))).slice(0, 3));
-        } else {
-            recommendedItems.push(...restaurants.filter(restaurant => restaurant.cuisine.some(cuisine => ratedFeatures.includes(cuisine))).slice(0, 3));
-        }
-    } else {
-        console.log("User has not rated any items of type", itemType);
-    }
+            }
+        });
+    });
 
-    return recommendedItems;
+    return recommendations;
 }
 
+// Function to generate restaurant recommendations based on user preferences
+function generateRestaurantRecommendations(user) {
+    let recommendations = [];
 
+    // Loop through each restaurant
+    restaurants.forEach(restaurant => {
+        // Check if the restaurant cuisine matches with any preferred cuisine of the user
+        restaurant.cuisine.forEach(cuisine => {
+            if (user.preferences.restaurants[cuisine] > 3) {
+                recommendations.push(restaurant.name);
+            }
+        });
+          // Check if any preferred feature is available in the restaurant
+          restaurant.features.forEach(feature => {
+            if (user.preferences.restaurants.features[feature] > 3) {
+                recommendations.push(restaurant.name);
+            }
+        });
+    });
 
-// Example: Recommend movies for User A
-const recommendedMoviesForUserA = recommendItems(1, 'movies');
-console.log("Recommended movies for User A:", recommendedMoviesForUserA);
+    return recommendations;
+}
 
-// Example: Recommend restaurants for User A
-const recommendedRestaurantsForUserA = recommendItems(1, 'restaurants');
-console.log("Recommended restaurants for User A:", recommendedRestaurantsForUserA);
+// Function to generate recommendations for a given user
+function generateRecommendations(userId) {
+    const user = users.find(user => user.id === userId);
 
-// Example: Recommend movies for User B
-const recommendedMoviesForUserB = recommendItems(2, 'movies');
-console.log("Recommended movies for User B:", recommendedMoviesForUserB);
+    if (!user) {
+        return ([movies,restaurants]);
+    }
 
-// Example: Recommend restaurants for User B
-const recommendedRestaurantsForUserB = recommendItems(2, 'restaurants');
-console.log("Recommended restaurants for User B:", recommendedRestaurantsForUserB);
+    const movieRecommendations = generateMovieRecommendations(user);
+    const restaurantRecommendations = generateRestaurantRecommendations(user);
 
-// Example: Recommend movies for User C
-const recommendedMoviesForUserC = recommendItems(3, 'movies');
-console.log("Recommended movies for User C:", recommendedMoviesForUserC);
+    return {
+        userName: user.name,
+        movieRecommendations: movieRecommendations,
+        restaurantRecommendations: restaurantRecommendations
+    };
+}
 
-// Example: Recommend restaurants for User C
-const recommendedRestaurantsForUserC = recommendItems(3, 'restaurants');
-console.log("Recommended restaurants for User C:", recommendedRestaurantsForUserC);
+// Example: Generate recommendations for User A (id: 1)
+const userARecommendations = generateRecommendations(1);
+console.log(userARecommendations);
+
+// Example: Generate recommendations for User B (id: 2)
+const userBRecommendations = generateRecommendations(2);
+console.log(userBRecommendations);
+
+// Example: Generate recommendations for User C (id: 3)
+const userCRecommendations = generateRecommendations(3);
+console.log(userCRecommendations);

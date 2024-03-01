@@ -92,11 +92,11 @@ const restaurants = [
   {
     id: 11,
     name: 'Chandigarh Curry Corner',
-    cuisine: ['Indian'],
+    cuisine: ['Punjabi'],
     location: '123 Cedar Street, Chandigarh',
     rating: 4.1,
     price_range: '$$',
-    features: ['Delivery', 'Takeout', 'Vegetarian Options']
+    features: ['Delivery', 'Takeout', 'Vegetarian Options','Fine Dining']
   },
   {
     id: 12,

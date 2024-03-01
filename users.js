@@ -4,30 +4,26 @@ const users = [
       name: "User A",
       preferences: {
         movies: {
-          1: 4,
-          2: 0  ,
-          3: 0,
-          4: 0,
-          5: 0,
-          6: 0,
-          7: 0,
-          8: 0,
-          9: 0,
-          10: 5,
+          genre: {
+         Action: 5, // User A prefers action movies
+         Crime: 3, // User A prefers crime movies
+          },
+          actors: {
+            "Marlon Brando": 5, // User A prefers actor
+            "Christian Bale": 3, // User A prefers actor
+             },
         },
         restaurants: {
-          1: 0,
-          2: 0,
-          3: 0,
-          4: 0,
-          5: 0,
-          6: 5,
-          7: 0,
-          8: 0,
-          9: 0,
-          10: 0,
-          11: 0,
-          12: 8,
+          cuisine: {
+          Indian: 5, // User A prefers Indian cuisine
+          Punjabi: 4, // User A likes Punjabi cuisine
+          Mughlai: 3, // User A is okay with Mughlai cuisine
+          },
+          features: {
+            "Vegetarian Options": 5, // User A prefers vegetarian features option
+            "Outdoor Seating": 4, 
+            Buffet: 3, // User A is okay with Buffet
+            },
         },
       },
     },
@@ -36,30 +32,25 @@ const users = [
       name: "User B",
       preferences: {
         movies: {
-          1: 5,
-          2: 0,
-          3: 0,
-          4: 4,
-          5: 3,
-          6: 5,
-          7: 0,
-          8: 0,
-          9: 0,
-          10: 0,
+          genre: {
+            Comedy: 5, // User B prefers Comedy movies
+            Romance: 3, // User B prefers Romantic movies
+             },
+             actors: {
+               "Salman Khan": 5, // User B prefers actor
+               "Robin Wright": 3, // User B prefers actor
+                },
         },
         restaurants: {
-          1: 0,
-          2: 0,
-          3: 4,
-          4: 0,
-          5: 0,
-          6: 0,
-          7: 3,
-          8: 5,
-          9: 4,
-          10: 0,
-          11: 0,
-          12: 0,
+          cuisine: {
+            Mughlai: 5, // User B prefers Mughlai cuisine
+            Punjabi: 4, // User B likes Punjabi cuisine
+            
+            },
+            features: {
+              "Family Friendly": 5, // User A prefers vegetarian features option
+              Takeout: 4, 
+              },
         },
       },
     },
@@ -68,34 +59,29 @@ const users = [
       name: "User C",
       preferences: {
         movies: {
-          1: 0,  // Rating for Dilwale Dulhania Le Jayenge
-          2: 3,  // Rating for Lagaan
-          3: 0,
-          4: 0,
-          5: 0,
-          6: 0,
-          7: 4,
-          8: 3,
-          9: 5,
-          10: 0,
+          genre: {
+            Sports: 5, // User C prefers Soprts movies
+            Drama: 3, // User C prefers Drama movies
+             },
+             actors: {
+               "Tim Robbins": 5, // User C prefers actor
+               "Aamir Khan": 4, // User C prefers actor
+                },
         },
         restaurants: {
-          1: 0,
-          2: 0,
-          3: 0,
-          4: 0,
-          5: 0,
-          6: 8,
-          7: 0,
-          8: 0,
-          9: 0,
-          10: 0,
-          11: 0,
-          12: 0,
+          cuisine: {
+            Punjabi: 5, // User C prefers Punjabi cuisine
+            Indian: 4, // User C likes Indian cuisine
+            
+            },
+            features: {
+              Delivery: 5, // User C prefers Delivery features option
+              'Fine Dining': 4, 
+              },
         },
       },
     },
-  ];
-  
-  module.exports = users;
-  
+    // Other users...
+];
+
+module.exports = users;
