@@ -6,18 +6,18 @@ const users = [
         movies: {
           genre: {
          Action: 5, // User A prefers action movies
-         Crime: 3, // User A prefers crime movies
+         Crime: 4, // User A prefers crime movies
           },
           actors: {
             "Marlon Brando": 5, // User A prefers actor
-            "Christian Bale": 3, // User A prefers actor
+            "Christian Bale": 5, // User A prefers actor
              },
         },
         restaurants: {
           cuisine: {
           Indian: 5, // User A prefers Indian cuisine
           Punjabi: 4, // User A likes Punjabi cuisine
-          Mughlai: 3, // User A is okay with Mughlai cuisine
+          Mughlai: 4, // User A is okay with Mughlai cuisine
           },
           features: {
             "Vegetarian Options": 5, // User A prefers vegetarian features option
@@ -34,7 +34,7 @@ const users = [
         movies: {
           genre: {
             Comedy: 5, // User B prefers Comedy movies
-            Romance: 3, // User B prefers Romantic movies
+            Romance: 4, // User B prefers Romantic movies
              },
              actors: {
                "Salman Khan": 5, // User B prefers actor
@@ -61,7 +61,7 @@ const users = [
         movies: {
           genre: {
             Sports: 5, // User C prefers Soprts movies
-            Drama: 3, // User C prefers Drama movies
+            Drama: 4, // User C prefers Drama movies
              },
              actors: {
                "Tim Robbins": 5, // User C prefers actor
